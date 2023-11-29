@@ -1,0 +1,5 @@
+.vscode
+torch
+db.sqlite3
+.env
+data
