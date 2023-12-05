@@ -38,4 +38,4 @@ class convNet(nn.Module):
 
 
 model = convNet()
-model.load_state_dict(torch.load(os.getcwd() + "\\backend\\api\\models\\convNet_model.pth"))
+model.load_state_dict(torch.load(os.getcwd() + "/api/models/convNet_model.pth", map_location ='cpu'))
