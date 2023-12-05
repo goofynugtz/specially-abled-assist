@@ -66,6 +66,9 @@ class convNet(nn.Module):
     x = self.dropout(F.relu(self.fc2(x)))
     x = self.out(x)
     return x
+  
+  def predict(self, x):
+    return self(x)
 
 
 def weight_init_normal(m):
@@ -83,7 +86,6 @@ if use_cuda and torch.cuda.is_available():
   model.cuda()
 
 criterion = nn.CrossEntropyLoss()
-
 
 def trainNet(model, lr, trainer, validater):
   optimizer = torch.optim.Adam(model.parameters(), lr=lr)
@@ -107,6 +109,7 @@ def trainNet(model, lr, trainer, validater):
         images, labels = images.cuda(), labels.cuda()
       optimizer.zero_grad()
       output = model(images)
+      print(output.shape)
       loss = criterion(output, labels)
       loss.backward()
       optimizer.step()
@@ -121,6 +124,7 @@ def trainNet(model, lr, trainer, validater):
       if use_cuda and torch.cuda.is_available():
         images, labels = images.cuda(), labels.cuda()
       output = model(images)
+      print(output.shape)
       loss = criterion(output, labels)
       valid_loss += loss.item()
 
@@ -134,7 +138,7 @@ def trainNet(model, lr, trainer, validater):
 
     if valid_loss <= valid_loss_min:
       print(f"Validation loss decreased from : {valid_loss_min} ----> {valid_loss} ----> Saving Model.......")
-      z = type(model).__name__
+      z = type(model).__name__  
       torch.save(model.state_dict(), z+'_model.pth')
       valid_loss_min = valid_loss
   return (loss_keeper)
