@@ -19,7 +19,6 @@ import {
 import axios from 'axios';
 import { Camera, CameraDevice, useCameraDevice, useCameraDevices } from 'react-native-vision-camera'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
-// import { captureRef } from 'react-native-view-shot';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -55,11 +54,8 @@ function App(): JSX.Element {
     const photo = await camera.current.takePhoto();
     console.log(photo)
     const img = await fetch(`file://${photo.path}`);
-    console.log(img)
     const blob = await img.blob();
-    console.log(blob)
     const base64 = await blobToBase64(blob)
-    console.log(base64)
 
     try {
       const response = await axios.post('http://localhost:8000/api/', { image: base64 });
