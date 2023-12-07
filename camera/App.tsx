@@ -17,7 +17,7 @@ import {
   View,
 } from 'react-native';
 import axios from 'axios';
-import { Camera, CameraDevice, useCameraDevice, useCameraDevices } from 'react-native-vision-camera'
+import { Camera } from 'react-native-vision-camera'
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
 function App(): JSX.Element {
@@ -33,13 +33,6 @@ function App(): JSX.Element {
     console.log(microphonePermission, cameraPermission)
   }
 
-  // const getBlob: Promise<Blob> | any = useCallback((fileUri: string) => {
-  //   return fetch(fileUri).then(
-  //     response => response.blob(),
-  //     error => console.log(`Error in converting image to blob - ${error}`),
-  //   )
-  // }, [])
-
   function blobToBase64(blob: any) : Promise<string> {
     return new Promise((resolve, _) => {
       const reader = new FileReader();
@@ -50,9 +43,8 @@ function App(): JSX.Element {
   
 
   const capture = async () => {
-    // @ts-ignore
-    const photo = await camera.current.takePhoto();
-    const img = await fetch(`file://${photo.path}`);
+    const photo = await camera.current?.takePhoto();
+    const img = await fetch(`file://${photo?.path}`);
     const blob = await img.blob();
     let base64: string = await blobToBase64(blob)
     base64 = base64.substring(23)
