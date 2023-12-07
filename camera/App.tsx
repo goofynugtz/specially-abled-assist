@@ -33,17 +33,17 @@ function App(): JSX.Element {
     console.log(microphonePermission, cameraPermission)
   }
 
-  const getBlob = useCallback((fileUri: string) => {
-    return fetch(fileUri).then(
-      response => response.blob(),
-      error => console.log(`Error in converting image to blob - ${error}`),
-    )
-  }, [])
+  // const getBlob: Promise<Blob> | any = useCallback((fileUri: string) => {
+  //   return fetch(fileUri).then(
+  //     response => response.blob(),
+  //     error => console.log(`Error in converting image to blob - ${error}`),
+  //   )
+  // }, [])
 
-  function blobToBase64(blob: any) {
+  function blobToBase64(blob: any) : Promise<string> {
     return new Promise((resolve, _) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result)
+      reader.onloadend = () => resolve(reader.result as string)
       reader.readAsDataURL(blob);
     })
   }
@@ -52,13 +52,13 @@ function App(): JSX.Element {
   const capture = async () => {
     // @ts-ignore
     const photo = await camera.current.takePhoto();
-    console.log(photo)
     const img = await fetch(`file://${photo.path}`);
     const blob = await img.blob();
-    const base64 = await blobToBase64(blob)
-
+    let base64: string = await blobToBase64(blob)
+    base64 = base64.substring(23)
+    console.log(base64.slice(0,20))
     try {
-      const response = await axios.post('http://localhost:8000/api/', { image: base64 });
+      const response = await axios.post('https://api.assistance.ranjanrahul.me/api/', { image: base64 });
       console.log(response.data)
     } catch (error) {
       console.log(error)
