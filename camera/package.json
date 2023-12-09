@@ -15,8 +15,7 @@
     "react-native": "0.72.7",
     "react-native-tts": "^4.1.0",
     "react-native-vector-icons": "^10.0.2",
-    "react-native-vision-camera": "^3.6.12",
-    "react-native-worklets-core": "^0.2.4"
+    "react-native-vision-camera": "^3.6.12"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
