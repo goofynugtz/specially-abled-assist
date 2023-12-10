@@ -1,4 +1,4 @@
-package com.camera;
+package com.goofynugtz.camera;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

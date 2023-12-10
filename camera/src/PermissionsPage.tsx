@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, Text, Modal, TouchableOpacity, StyleSheet } from 'react-native';
-
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
 
 const Permissions: React.FC = () => {
   return (
