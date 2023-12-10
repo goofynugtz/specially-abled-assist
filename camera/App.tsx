@@ -10,11 +10,10 @@ import {
   ActivityIndicator,
   StyleSheet,
   TouchableOpacity,
-  useColorScheme,
   View,
 } from 'react-native';
 import axios from 'axios';
-import { Camera, CameraPermissionStatus } from 'react-native-vision-camera'
+import { Camera, CameraPermissionStatus, getCameraFormat } from 'react-native-vision-camera'
 import PopupComponent, { Speak } from './src/TTSPopupPage';
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -50,15 +49,20 @@ function App(): JSX.Element {
     else setFlash("on");
   }
 
-
+  
   const capture = async () => {
     const photo = await camera.current?.takePhoto({
       qualityPrioritization: 'speed',
       flash: flash,
     });
+    const width = photo?.width
+    const height = photo?.height
+    
     const img = await fetch(`file://${photo?.path}`);
     const blob = await img.blob();
     let base64: string = await blobToBase64(blob)
+    
+
     base64 = base64.substring(23)
     try {
       setLoading(true)
@@ -68,16 +72,19 @@ function App(): JSX.Element {
       setPopupVisible(true)
       setTimeout(() => setPopupVisible(false), 5000);
       Speak(response.data)
-
+      
     } catch (error) {
       console.log(error)
     }
   }
-
+  
   const devices = Camera.getAvailableCameraDevices()
   const device = devices.find((d) => d.position === 'back')
   const camera = useRef<Camera>(null);
 
+  const format = getCameraFormat(device! , [
+    { photoResolution: {width: 800, height: 450} },
+  ])
 
   if (device == null) return <ActivityIndicator />
   return (
@@ -93,6 +100,7 @@ function App(): JSX.Element {
             device={device}
             isActive={true}
             style={StyleSheet.absoluteFill}
+            format={format}
           />
           <View style={styles.bottomView}>
             <TouchableOpacity
