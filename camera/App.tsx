@@ -15,19 +15,12 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { Camera, CameraPermissionStatus } from 'react-native-vision-camera'
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 import PopupComponent, { Speak } from './src/TTSPopupPage';
 import Feather from 'react-native-vector-icons/Feather'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 import Permissions from './src/PermissionsPage';
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
   const [isPopupVisible, setPopupVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [flash, setFlash] = useState<"on" | "off">("off");
@@ -37,12 +30,7 @@ function App(): JSX.Element {
   const isCameraAuthorized = cameraPermissionStatus === 'granted'
 
   useEffect(() => {
-    console.log("auth: ", isCameraAuthorized, "perm stat: ", cameraPermissionStatus)
-  })
-
-  useEffect(() => {
     Camera.getCameraPermissionStatus().then(setCameraPermissionStatus)
-    console.log("permis: ", cameraPermissionStatus)
   }, [setCameraPermissionStatus])
 
   useEffect(() => {
@@ -72,11 +60,9 @@ function App(): JSX.Element {
     const blob = await img.blob();
     let base64: string = await blobToBase64(blob)
     base64 = base64.substring(23)
-    console.log(base64.slice(0, 20))
     try {
       setLoading(true)
       const response = await axios.post('https://api.assistance.ranjanrahul.me/api/', { image: base64 });
-      console.log(response)
       setCurrentResponse(response.data)
       setLoading(false)
       setPopupVisible(true)

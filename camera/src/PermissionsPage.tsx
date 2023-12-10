@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const Permissions: React.FC = () => {
   return (
       <View style={styles.overlay}>
-        <Text style={styles.popupText}>Please allow access to camera.</Text>
+        <Text style={styles.popupText}>Please allow access to Camera.</Text>
       </View>
   );
 };
