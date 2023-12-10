@@ -12,8 +12,6 @@ interface PopupComponentProps {
 
 const PopupComponent: React.FC<PopupComponentProps> = ({ content, isVisible, onClose }) => {
 
-  
-
   return (
     <Modal transparent visible={isVisible} animationType="slide" onRequestClose={onClose}>
       <View style={styles.overlay}>
