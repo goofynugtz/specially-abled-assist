@@ -3,3 +3,6 @@ torch
 db.sqlite3
 .env
 data
+venv
+model/dataset
+model/videos
